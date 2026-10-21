@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
   <!-- SVG Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%2310b981'/><stop offset='100%' stop-color='%2306b6d4'/></linearGradient></defs><rect width='100' height='100' rx='25' fill='url(%23g)'/><path d='M25 32 L50 20 L75 32 L50 44 Z M35 45 L35 65 Q50 75 65 65 L65 45' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 
-  <!-- Google Fonts: Cairo, Tajawal & Inter -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
   <style>
     body {
       font-family: 'Cairo', sans-serif;
-      background: radial-gradient(circle at top right, #1e1b4b 0%, #0f172a 40%, #020617 100%);
+      background: radial-gradient(circle at top left, #1e1b4b 0%, #0f172a 40%, #020617 100%);
       background-attachment: fixed;
       color: #f1f5f9;
       min-height: 100vh;
@@ -52,7 +52,7 @@
     }
 
     .glass-panel {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(30, 41, 59, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -80,7 +80,7 @@
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: left 0.75rem center;
+      background-position: right 0.75rem center;
       background-size: 1.1em;
     }
 
@@ -108,15 +108,24 @@
     .sticky-header th {
       position: sticky;
       top: 0;
-      background: rgba(15, 23, 42, 0.95);
       z-index: 20;
+      background-color: #0f172a !important;
     }
 
-    .sticky-col {
-      position: sticky;
-      right: 0;
-      background: rgba(15, 23, 42, 0.92);
-      z-index: 10;
+    /* Strict Table Layout & Centering CSS */
+    .schedule-table {
+      table-layout: fixed;
+      width: 100%;
+      direction: ltr;
+      border-collapse: collapse;
+    }
+
+    .schedule-table th, .schedule-table td {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 8px;
+      text-align: center !important;
+      vertical-align: middle !important;
+      word-break: break-word;
     }
   </style>
 </head>
@@ -141,7 +150,7 @@
       </div>
 
       <div class="hidden md:flex items-center gap-3">
-        <div class="text-left leading-tight">
+        <div class="text-right leading-tight">
           <div id="sync-status" class="text-xs text-emerald-400 font-medium">Ready</div>
           <div id="last-updated" class="text-[10px] text-slate-400 en-num">Updated: --:--</div>
         </div>
@@ -154,7 +163,7 @@
   </header>
 
   <!-- Live Banner -->
-  <div id="live-banner" class="max-w-7xl mx-auto mb-6 glass-card rounded-2xl p-3 flex items-center gap-3 border-r-4 border-emerald-500">
+  <div id="live-banner" class="max-w-7xl mx-auto mb-6 glass-card rounded-2xl p-3 flex items-center gap-3 border-l-4 border-emerald-500">
     <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
       <i class="fa-solid fa-clock-rotate-left text-lg"></i>
     </div>
@@ -167,9 +176,9 @@
     </div>
   </div>
 
-  <!-- Dynamic KPIs (Daily + Full Week) -->
+  <!-- Dynamic KPIs -->
   <section id="dynamic-kpis-container" class="max-w-7xl mx-auto mb-6 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-    <!-- Generated dynamically from first words -->
+    <!-- Generated dynamically -->
   </section>
 
   <!-- Controls Dropdowns & Filters -->
@@ -178,7 +187,7 @@
       <!-- View Dropdown -->
       <div class="relative w-full sm:w-60">
         <label for="view-dropdown" class="block text-[11px] font-bold text-emerald-400 mb-1">طريقة العرض:</label>
-        <select id="view-dropdown" onchange="handleViewChange(this.value)" class="glass-dropdown w-full pl-8 pr-10 py-2.5 rounded-2xl text-sm font-bold border border-emerald-500/30">
+        <select id="view-dropdown" onchange="handleViewChange(this.value)" class="glass-dropdown w-full pr-8 pl-10 py-2.5 rounded-2xl text-sm font-bold border border-emerald-500/30">
           <option value="today">📅 عرض اليوم المحدد</option>
           <option value="full">📊 عرض الجدول الكامل</option>
           <option value="subject">📚 عرض المواد والدروس</option>
@@ -188,7 +197,7 @@
       <!-- Day Dropdown -->
       <div class="relative w-full sm:w-56">
         <label for="day-dropdown" class="block text-[11px] font-bold text-teal-400 mb-1">الفترة / اليوم:</label>
-        <select id="day-dropdown" onchange="handleDayChange(this.value)" class="glass-dropdown w-full pl-8 pr-10 py-2.5 rounded-2xl text-sm font-bold border border-teal-500/30">
+        <select id="day-dropdown" onchange="handleDayChange(this.value)" class="glass-dropdown w-full pr-8 pl-10 py-2.5 rounded-2xl text-sm font-bold border border-teal-500/30">
           <!-- Populated Dynamically -->
         </select>
       </div>
@@ -196,7 +205,7 @@
 
     <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
       <div class="relative w-full sm:w-64">
-        <input type="text" id="search-input" oninput="handleSearch()" placeholder="بحث باسم المادة أو المدرس..." class="w-full pr-10 pl-4 py-2.5 rounded-2xl glass-card text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+        <input type="text" id="search-input" oninput="handleSearch()" placeholder="بحث باسم المادة أو المدرس..." class="w-full pl-10 pr-4 py-2.5 rounded-2xl glass-card text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
       </div>
 
       <!-- Dynamic Filter Pills -->
@@ -212,25 +221,26 @@
       <div id="today-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
+    <!-- VIEW FULL: Separated Columns LTR Table -->
     <div id="view-full" class="view-panel hidden">
-      <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
-        <div class="overflow-x-auto max-h-[75vh]">
-          <table class="w-full text-right border-collapse min-w-[900px]">
+      <div class="glass-panel rounded-3xl p-4 border border-white/10 overflow-hidden">
+        <div class="w-full overflow-x-auto">
+          <table class="schedule-table text-xs">
             <thead class="sticky-header">
-              <tr class="border-b border-white/10 text-xs font-bold text-slate-300">
-                <th class="p-3.5 sticky-col text-center w-28">From</th>
-                <th class="p-3.5 text-center w-28">To</th>
-                <th class="p-3.5 text-center">السبت</th>
-                <th class="p-3.5 text-center">الأحد</th>
-                <th class="p-3.5 text-center">الإثنين</th>
-                <th class="p-3.5 text-center">الثلاثاء</th>
-                <th class="p-3.5 text-center">الأربعاء</th>
-                <th class="p-3.5 text-center">الخميس</th>
-                <th class="p-3.5 text-center">الجمعة</th>
-                <th class="p-3.5 text-center">ملاحظات</th>
+              <tr class="font-bold text-slate-200 bg-slate-900/95">
+                <th style="width: 9%;">من الساعة</th>
+                <th style="width: 9%;">إلى الساعة</th>
+                <th style="width: 9%;">السبت</th>
+                <th style="width: 9%;">الأحد</th>
+                <th style="width: 9%;">الإثنين</th>
+                <th style="width: 9%;">الثلاثاء</th>
+                <th style="width: 9%;">الأربعاء</th>
+                <th style="width: 9%;">الخميس</th>
+                <th style="width: 9%;">الجمعة</th>
+                <th style="width: 19%;">ملاحظات</th>
               </tr>
             </thead>
-            <tbody id="full-table-body" class="divide-y divide-white/5 text-sm"></tbody>
+            <tbody id="full-table-body" class="divide-y divide-white/5"></tbody>
           </table>
         </div>
       </div>
@@ -242,7 +252,7 @@
   </main>
 
   <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 left-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out glass-panel rounded-2xl px-5 py-3 border-l-4 border-emerald-500 flex items-center gap-3 text-sm text-white">
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out glass-panel rounded-2xl px-5 py-3 border-r-4 border-emerald-500 flex items-center gap-3 text-sm text-white">
     <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
     <span id="toast-msg">Updated successfully</span>
   </div>
@@ -301,6 +311,26 @@
       }, 1000);
     }
 
+    // Fixed CSV Parser guaranteeing proper separation of time columns
+    function parseCSVRow(text) {
+      const result = [];
+      let cell = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') {
+          inQuotes = !inQuotes;
+        } else if (c === ',' && !inQuotes) {
+          result.push(cell.trim().replace(/^"|"$/g, ''));
+          cell = '';
+        } else {
+          cell += c;
+        }
+      }
+      result.push(cell.trim().replace(/^"|"$/g, ''));
+      return result;
+    }
+
     async function fetchScheduleData() {
       showSyncing(true);
       try {
@@ -314,7 +344,6 @@
         showToast('فشل التحديث، تأكد من الاتصال بالإنترنت', 'info');
       } finally {
         showSyncing(false);
-        // تحديث وقت آخر مزامنة بدقة باللغة والأرقام الإنجليزية
         const now = new Date();
         const hours = String(now.getHours() % 12 || 12).padStart(2, '0');
         const mins = String(now.getMinutes()).padStart(2, '0');
@@ -344,13 +373,19 @@
       rawScheduleData = [];
 
       for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-        if (row.length >= 9) {
+        const row = parseCSVRow(lines[i]);
+        if (row.length >= 2) {
           rawScheduleData.push({
-            from: row[0] || '', to: row[1] || '',
-            السبت: row[2] || '', الأحد: row[3] || '', الإثنين: row[4] || '',
-            الثلاثاء: row[5] || '', الأربعاء: row[6] || '', الخميس: row[7] || '',
-            الجمعة: row[8] || '', notes: row[9] || ''
+            from: row[0] || '',
+            to: row[1] || '',
+            'السبت': row[2] || '',
+            'الأحد': row[3] || '',
+            'الإثنين': row[4] || '',
+            'الثلاثاء': row[5] || '',
+            'الأربعاء': row[6] || '',
+            'الخميس': row[7] || '',
+            'الجمعة': row[8] || '',
+            notes: row[9] || ''
           });
         }
       }
@@ -378,7 +413,6 @@
         });
       });
 
-      // Render Dynamic KPI Cards
       const kpiContainer = document.getElementById('dynamic-kpis-container');
       kpiContainer.innerHTML = '';
 
@@ -401,7 +435,6 @@
         kpiContainer.appendChild(card);
       });
 
-      // Render Dynamic Pills
       const pillsContainer = document.getElementById('dynamic-pills-container');
       pillsContainer.innerHTML = '';
 
@@ -483,27 +516,26 @@
       });
     }
 
+    /* Rendering Exactly 10 Cells Matched to Header 1:1 */
     function renderFullTableView() {
       const tbody = document.getElementById('full-table-body');
       tbody.innerHTML = '';
 
-      rawScheduleData.forEach((slot, rowIndex) => {
+      rawScheduleData.forEach((slot) => {
         const tr = document.createElement('tr');
-        tr.className = 'border-b border-white/5';
-
-        let cellsHTML = '';
-        DAYS.forEach(day => {
-          const activity = slot[day] || '';
-          const matches = (categoryFilter === 'all' || getFirstWord(activity) === categoryFilter) &&
-                          (!searchQuery || activity.toLowerCase().includes(searchQuery.toLowerCase()));
-          cellsHTML += `<td class="p-2.5 text-center ${matches ? '' : 'opacity-20'}" id="cell-${rowIndex}-${day}">${activity || '-'}</td>`;
-        });
+        tr.className = 'hover:bg-white/5 transition';
 
         tr.innerHTML = `
-          <td class="p-3 font-mono text-xs text-center sticky-col en-num">${slot.from}</td>
-          <td class="p-3 font-mono text-xs text-center en-num">${slot.to}</td>
-          ${cellsHTML}
-          <td class="p-3 text-xs text-center">${slot.notes || '-'}</td>
+          <td class="font-mono text-xs text-emerald-400 en-num">${slot.from || '-'}</td>
+          <td class="font-mono text-xs text-emerald-400 en-num">${slot.to || '-'}</td>
+          <td>${slot['السبت'] || '-'}</td>
+          <td>${slot['الأحد'] || '-'}</td>
+          <td>${slot['الإثنين'] || '-'}</td>
+          <td>${slot['الثلاثاء'] || '-'}</td>
+          <td>${slot['الأربعاء'] || '-'}</td>
+          <td>${slot['الخميس'] || '-'}</td>
+          <td>${slot['الجمعة'] || '-'}</td>
+          <td class="text-amber-300 font-semibold">${slot.notes || '-'}</td>
         `;
         tbody.appendChild(tr);
       });
